@@ -1,1 +1,1 @@
-# trying to be better
+# simple auth
