@@ -7,24 +7,32 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader (created by composer, not included with PHPMailer)
-require 'vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+var_dump($_ENV);
+//dotEnv varibles
 
-function sendemail_verify ($name, $email, $verify_token) {
+$email_name = $_ENV['EMAIL_NAME'];
+$email_pass = $_ENV['EMAIL_PASS'];
+
+// Mailer config
+
+function sendemail_verify ($name, $email, $verify_token, $email_pass, $email_name) {
     // $mail->SMTPDebug = 2;  // for errors
-    $mail = new PHPMailer(true);
-    $mail->isSMTP();                                            //Send using SMTP
-
-    $mail->Host = 'smtp.gmail.com';                             //Set the SMTP server to send through
-    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'user@example.com';                     //SMTP username
-    $mail->Password   = 'secret';                               //SMTP password
-    
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable implicit TLS encryption
-    $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+    $mail = new PHPMailer(true);                                    // $mail->SMTPDebug = SMTP::DEBUG_SERVER; // debug server
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = $email_name;                                // example@gmail.com
+    $mail->Password   = $email_pass;                                // app password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = 587;
+    $mail->CharSet    = 'UTF-8';                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('from@example.com', 'My Site');
+    $mail->setFrom($email_name, 'My Site');
     $mail->addAddress($email);     //Add a recipient
     
     //Content
@@ -55,7 +63,7 @@ if(isset($_POST["register_btn"])) {
     $password = $_POST["password"];
     $verify_token = md5(rand());
 
-    sendemail_verify("$name", "$email", "$verify_token");
+    sendemail_verify("$name", "$email", "$verify_token", $email_pass, $email_name);
     echo "sent or not";
 
     // // Email check

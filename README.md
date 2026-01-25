@@ -4,3 +4,10 @@
 composer require phpmailer/phpmailer
 
 ```
+## req : vlucas/phpdotenv
+
+```
+
+composer require vlucas/phpdotenv
+
+```
