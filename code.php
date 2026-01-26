@@ -11,7 +11,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-var_dump($_ENV);
+// var_dump($_ENV);
 //dotEnv varibles
 
 $email_name = $_ENV['EMAIL_NAME'];
@@ -63,32 +63,28 @@ if(isset($_POST["register_btn"])) {
     $password = $_POST["password"];
     $verify_token = md5(rand());
 
-    sendemail_verify("$name", "$email", "$verify_token", $email_pass, $email_name);
-    echo "sent or not";
+    // Email check
 
-    // // Email check
+    $check_email_query = "SELECT email FROM users WHERE email='$email' LIMIT 1";
+    $check_email_query_run = mysqli_query($con, $check_email_query);
 
-    // $check_email_query = "SELECT email FROM users WHERE email='$email' LIMIT 1";
-    // $check_email_query_run = mysqli_query($con, $check_email_query);
+    if(mysqli_num_rows($check_email_query_run) > 0){
+        $_SESSION['status'] = "Email id already Exisrs!";
+        header("Location: register.php");
+    } else{
+        // Insert User / Register user data
+        $query = "INSERT INTO users (name, email, password, verify_token) VALUES ('$name', '$email', '$password', '$verify_token')";
+        $query_run = mysqli_query($con, $query);
 
-    // if(mysqli_num_rows($check_email_query_run) > 0){
-    //     $_SESSION['status'] = "Email id already Exisrs!";
-    //     header("Location: register.php");
-    // } else{
-    //     // Insert User / Register user data
-    //     $query = "INSERT INTO users (name, email, password, verify_token)
-    //     VALUES ('$name', '$email', '$password', '$verify_token')";
-    //     $query_run = mysqli_query($con, $query);
-
-    //     if($query_run){
-    //         sendemail_verify("$name", "$email", "$verify_token");
-    //         $_SESSION['status'] = "Registration Successfull!";
-    //         header("Location: register.php");
-    //     } else {
-    //         $_SESSION['status'] = "Registration failed!";
-    //         header("Location: register.php");
-    //     }
-    // }
+        if($query_run){
+            sendemail_verify("$name", "$email", "$verify_token", $email_pass, $email_name);
+            $_SESSION['status'] = "Registration Successfull!";
+            header("Location: register.php");
+        } else {
+            $_SESSION['status'] = "Registration failed!";
+            header("Location: register.php");
+        }
+    }
 
     }
 
