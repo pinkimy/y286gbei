@@ -43,7 +43,7 @@ function sendemail_verify ($name, $email, $verify_token, $email_pass, $email_nam
         <h2>You have been registered!</h2>
         <h5>Please verify your email address</h5>
         <br>
-        <a href='https://localhost:8080/verify_email.php?token=$verify_token'>
+        <a href='http://localhost:8080/verify_email.php?token=$verify_token'>
             Click me
         </a>
     ";
@@ -69,7 +69,7 @@ if(isset($_POST["register_btn"])) {
     $check_email_query_run = mysqli_query($con, $check_email_query);
 
     if(mysqli_num_rows($check_email_query_run) > 0){
-        $_SESSION['status'] = "Email id already Exisrs!";
+        $_SESSION['status'] = "Email id already exists!";
         header("Location: register.php");
     } else{
         // Insert User / Register user data
