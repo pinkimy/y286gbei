@@ -2,8 +2,7 @@
 
 Simple PHP authentication system with login and registration functionality.
 
-![preview](intro.gif)
-
+![preview](public/assets/img/intro.gif)
 ## Features
 - User registration
 - User login
