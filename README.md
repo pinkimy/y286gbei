@@ -19,6 +19,37 @@ Simple PHP authentication system with login and registration functionality.
 - Phpdotenv
 - Mysqli
 
+## Project structure
+
+```
+
+auth-project/
+│
+├─ config/
+│  └─ db.php
+│
+├─ public/
+│  ├─ index.php
+│  ├─ login.php
+│  ├─ register.php
+│  ├─ verify_email.php
+│  ├─ code.php
+│  │
+│  └─ assets/
+│      ├─ css/
+│      │   └─ style.css
+│      └─ img/
+│          └─ intro.gif
+│
+├─ vendor/
+│
+├─ composer.json
+├─ .env
+├─ .gitignore
+└─ README.md
+
+```
+
 ## requirements : phpmailer 
 ```
 composer require phpmailer/phpmailer
