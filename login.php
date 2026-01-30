@@ -44,5 +44,8 @@
                         </div>
                     </div>
                 </div>
-    </div>
+            </div>
+        </div>
+    <div class="credits">github.com/pinkimy
+</div>
 </body>
